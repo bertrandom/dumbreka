@@ -70,3 +70,7 @@ Start the server:
 ```
 pm2 start ecosystem.config.js --env production
 ```
+
+## License
+
+MIT
