@@ -71,6 +71,18 @@ Start the server:
 pm2 start ecosystem.config.js --env production
 ```
 
+## Usage
+
+Invite the bot to the Slack channel:
+```
+/invite @dumbreka
+```
+
+@mention the bot to get the ball rolling:
+```
+@Dumbreka
+```
+
 ## License
 
 MIT
