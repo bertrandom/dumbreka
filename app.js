@@ -13,13 +13,15 @@ const knex = Knex(knexConfig[environment]);
 
 Model.knex(knex);
 
-// Initializes your app with your bot token and signing secret
 const app = new App({
     token: config.slack.bot_token,
     signingSecret: config.slack.signing_secret
 });
 
 const getChartUrl = function (vaccinated, unvaccinated, total) {
+
+    // https://documentation.image-charts.com/bar-charts/
+    // https://color.adobe.com/color%20theme_9290CC18-D7F6-41B8--color-theme-17150550
 
     var a = (vaccinated / total) * 100;
     var b = (unvaccinated / total) * 100;
@@ -61,6 +63,8 @@ const displayStatus = async function (client, channelId) {
         var unvaccinated = 0;
         var total = membersResult.members.length;
 
+        // We can make this better by tracking the bot user ID, but for now just hardcode it
+
         var botInChannel = true;
         if (botInChannel) {
             total--;
@@ -76,7 +80,6 @@ const displayStatus = async function (client, channelId) {
             }
         });
 
-        // Call chat.postMessage with the built-in client
         const result = await client.chat.postMessage({
             channel: channelId,
             blocks: [
@@ -99,7 +102,6 @@ const displayButtons = async function (client, channelId) {
 
     try {
 
-        // Call chat.postMessage with the built-in client
         const result = await client.chat.postMessage({
             channel: channelId,
             blocks: [
@@ -181,6 +183,8 @@ const deleteStatus = async function (teamId, userId) {
     });
 
     if (user) {
+        // Seems like there should be a way to chain this off of user
+        // but user.delete() didn't work
         await User.query().deleteById(user.id);
     }
 
@@ -188,7 +192,6 @@ const deleteStatus = async function (teamId, userId) {
 
 app.action('set_vaccinated', async ({ body, ack, say, client }) => {
     await ack();
-    console.log(body);
     await say(`<@${body.user.id}> marked themselves as vaccinated.`);
     await updateStatus(body.team.id, body.user.id, 'vaccinated');
     await displayStatus(client, body.channel.id);
@@ -197,7 +200,6 @@ app.action('set_vaccinated', async ({ body, ack, say, client }) => {
 
 app.action('set_not_vaccinated', async ({ body, ack, say, client }) => {
     await ack();
-    console.log(body);
     await say(`<@${body.user.id}> marked themselves as not vaccinated.`);
     await updateStatus(body.team.id, body.user.id, 'not_vaccinated');
     await displayStatus(client, body.channel.id);
@@ -206,7 +208,6 @@ app.action('set_not_vaccinated', async ({ body, ack, say, client }) => {
 
 app.action('clear_status', async ({ body, ack, say, client }) => {
     await ack();
-    console.log(body);
     await say(`<@${body.user.id}> cleared their vaccination status.`);
     await deleteStatus(body.team.id, body.user.id);
     await displayStatus(client, body.channel.id);
@@ -216,5 +217,5 @@ app.action('clear_status', async ({ body, ack, say, client }) => {
 (async () => {
     // Start your app
     await app.start(config.port || 8080);
-    console.log('⚡️ Bolt app is running!');
+    console.log('dumbreka is running!');
 })();
