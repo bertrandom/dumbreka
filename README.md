@@ -29,6 +29,10 @@ Request URL: `{$DOMAIN}/slack/events`
 
 Subscribe to bot events: `app_mention`
 
+### Features :: Interactivity & Shortcuts
+
+Request URL: `{$DOMAIN}/slack/events`
+
 ### Settings :: Install App
 
 **Install to workspace**
