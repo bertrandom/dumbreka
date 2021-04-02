@@ -1,0 +1,11 @@
+{
+	"slack": {
+		"app_id": "A12345678",
+		"client_id": "1234567890.12345678901",
+		"client_secret": "xxx",
+		"signing_secret": "xxx",
+		"verification_token": "xxx",
+		"bot_token": "xxx",
+	},
+	"port": 8080
+}
